@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: client1
+server:
+  port: 0 #8758
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://192.168.43.166:8761/eureka/
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  instance:
+    preferIpAddress: true
+    instanceId: ${spring.application.name}:${random.int}
+  metadataMap:
+    instanceId: ${spring.application.name}:${random.int}

@@ -1,0 +1,5 @@
+rootProject.name = 'tstmicro'
+include 'discovery'
+include 'client1'
+include 'edge'
+

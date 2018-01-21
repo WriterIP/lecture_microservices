@@ -1,0 +1,61 @@
+group 'ua.ip'
+version '1.0-SNAPSHOT'
+buildscript {
+    ext {
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'docker'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'discovery'
+    version = '0.0.1-SNAPSHOT'
+    archiveName 'discovery.jar'
+
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    tag = "discovery"
+    applicationName = jar.baseName
+    dockerfile = file('src/main/docker/Dockerfile')
+    push = this.properties['docker.push']
+    doFirst {
+        println "Building docker image $tag"
+        println stageDir
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.SR5'
+    }
+}
+
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+

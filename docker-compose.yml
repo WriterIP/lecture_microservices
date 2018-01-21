@@ -1,0 +1,44 @@
+version: '2'
+services:
+  ec1:
+    image: client1:1.0-SNAPSHOT
+    #container_name: eureca-client11
+    #environment:
+    #  SPRING_PROFILES_ACTIVE: "dev"
+    restart: unless-stopped
+#    ports:
+#      - "8758:8758"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "10"
+
+  ds:
+    image: discovery:1.0-SNAPSHOT
+    #container_name: eureca-client11
+    #environment:
+    #  SPRING_PROFILES_ACTIVE: "dev"
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "10"
+  ed:
+    image: edge:1.0-SNAPSHOT
+    #container_name: eureca-client11
+    #environment:
+    #  SPRING_PROFILES_ACTIVE: "dev"
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "10"
+
+#network_mode: "host"

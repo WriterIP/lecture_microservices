@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: eddie
+zuul:
+  routes:
+    client1:
+      path: /client1/**
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://192.168.43.166:8761/eureka/
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  instance:
+    preferIpAddress: true
+    instanceId: ${spring.application.name}:${random.int}
+  metadataMap:
+    instanceId: ${spring.application.name}:${random.int}
